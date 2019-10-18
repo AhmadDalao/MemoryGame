@@ -10,6 +10,11 @@ let movesCounter = 0;
 
 let numberOfStars = 3;
 
+let seconds = 0;
+
+let minutes = 0;
+
+let timerHandler; // going to use it to stop the timer when required
 
 // initialize game 
 function initializeGame() {
@@ -56,14 +61,55 @@ function flipAllCards() {
 
 function startAgainDialog() {
     closeDialog();
-    numberOfStars = 3;
-    movesCounter = 0;
+    numberOfStars = 3; // resetting the values 
+    movesCounter = 0; // resetting the values 
+    seconds = -1; // resetting the values 
+    minutes = 0; // resetting the values 
     openCards = []; // to reset the array each time the game is played .
     updateScore();
     shuffleCards();
     flipAllCards();
+    startTimer(); // start timer with every new game.
 }
 
+
+function startTimer() {
+    if (!timerHandler) {
+        // this function will be executed every second 
+        timerHandler = setInterval(function() {
+            seconds += 1;
+            if (seconds > 59) {
+                seconds = 0;
+                minutes += 1;
+            }
+            // handle the leading zero for both seconds and minutes here :
+            let stringSeconds = "";
+            let stringMinutes = "";
+            if (seconds < 10) {
+                stringSeconds = "0" + seconds;
+            } else {
+                stringSeconds = seconds;
+            }
+
+            if (minutes < 10) {
+                stringMinutes = "0" + minutes;
+
+            } else {
+                stringMinutes = minutes;
+            }
+
+            // handle the html for the timer
+            document.querySelector(".timer").innerText = `${stringMinutes}:${stringSeconds}`;
+
+        }, 1000);
+    }
+
+}
+
+function stopTimer() {
+    clearInterval(timerHandler);
+    timerHandler = null;
+}
 
 
 function closeDialog() {
@@ -93,14 +139,14 @@ function clickingCard() {
     if (openCards.length < 2) {
         //flp the card when clicked on
         this.classList.toggle("show");
+        this.classList.toggle("shake-it"); // toggle the animation 
         this.classList.toggle("open");
-
         // now i need to add the cards i opened to the array
         openCards.push(this);
 
         if (openCards.length == 2) {
-
             setTimeout(matchingTheCards, 1000);
+
             // so i can see the second card other wise you wont be able to see the second card being flipped 
             // if i have two cards open check if they match each other using this method
         }
@@ -131,8 +177,8 @@ function matchingTheCards() {
             //    openCards = []; // release the date to enable me to click on another card
         } else {
             // flip the card back
-            firstCardFlipped.className = "card";
-            secondCardFlipped.className = "card";
+            firstCardFlipped.className = " card ";
+            secondCardFlipped.className = " card";
             // openCards = [];
         }
         // release the date to enable me to click on another card
@@ -147,8 +193,9 @@ function matchingTheCards() {
 
     const remainingUnOpenedCards = document.querySelectorAll(".card:not(.match)");
     if (remainingUnOpenedCards.length == 0) {
-        // display : You win
+        // display : You win message
         showDialogToUser();
+
     }
 
 }
@@ -191,12 +238,14 @@ function updateScore() {
 
 }
 
-/* يمكن هون المشكله مالي متاكد  */
 function showDialogToUser() {
     var myDialog = document.querySelector("#dialog-box");
 
     document.querySelector("#moves-span").innerText = movesCounter;
     myDialog.showModal();
+
+    // stop the timer when the user win.
+    stopTimer();
 }
 
 

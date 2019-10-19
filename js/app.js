@@ -208,9 +208,9 @@ function updateScoreAndStars() {
     movesCounter += 1;
 
 
-    if (movesCounter <= 10) {
+    if (movesCounter <= 12) {
         numberOfStars = 3;
-    } else if (movesCounter <= 20) {
+    } else if (movesCounter <= 30) {
         numberOfStars = 2;
     } else {
         numberOfStars = 1;

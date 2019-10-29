@@ -210,13 +210,13 @@ function updateScoreAndStars() {
 
     if (movesCounter <= 14) {
         numberOfStars = 3;
-    } else if (movesCounter <= 30) {
+    } else if (movesCounter <= 35) {
         numberOfStars = 2;
     } else {
         numberOfStars = 1;
     }
 
-
+    //hi yo
     // this function will update the html to the user
     updateScore();
 }

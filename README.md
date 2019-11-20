@@ -14,7 +14,7 @@ The game ends once all cards have been correctly matched.
 
 1. Clone this Reposatery .
 2. open Index.html .
-3. Start Play.
+3. Start Playing.
 4. Have fun .
 
 <br>
